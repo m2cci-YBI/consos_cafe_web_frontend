@@ -50,7 +50,9 @@ export default {
           }
           this.$router.push('consommations/'+this.getWeek(this.week))
           console.log(formData)
+         
           console.log(this.getWeek(this.week))
+          
         }
       }
       
