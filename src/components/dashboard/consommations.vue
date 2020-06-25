@@ -1,31 +1,46 @@
-<template >
-<div id="consommations">
-    
-    <div v-for="p in consommations" :key="p.consommationId"> nom : {{p.nomCompletProgrammeur}} - nbTasses: {{p.nbTasses}} - numSemaine :{{p.numSemaine}}</div>
-    
-</div>
+<template>
+  <div class="container">
+    <table class="table table-stripped">
+      <tr>
+        <th>Programmeur</th>
+        <th>Numero de semaine</th>
+        <th>Nombre de Tasses</th>
+      </tr>
+      <tr v-for="c in consommations" :key="c.consommationId">
+        <td>{{ c.nomCompletProgrammeur }}</td>
+        <td>{{ c.numSemaine }}</td>
+        <td>{{ c.nbTasses }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      jwtToken: "",
+      consommations: [],
+    };
+  },
+  mounted() {
+    if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
 
-
-export default{
-data(){
-    return{
-        consommations:[]
-    }
-},
-mounted(){
-    
-    this.$http.get('http://localhost:8081/consommations/' + this.$route.params.week).then(
-                         (response)=>{this.consommations=response.data},
-                         (response)=>{console.log('erreur',response)}
-    )
-}
-}
-
+    axios
+      .get("http://localhost:8081/consommations/" + this.$route.params.week, {
+        headers: { Authorization: this.jwtToken },
+      })
+      .then((response) => {
+        this.consommations = response.data;
+      })
+      .catch((error) => {
+        console.log("erreur", error);
+        localStorage.removeItem("jwtToken");
+        this.$router.replace("/signin");
+      });
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
