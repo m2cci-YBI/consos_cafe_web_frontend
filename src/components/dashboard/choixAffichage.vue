@@ -5,12 +5,20 @@
         Week : <input id="numSemInput" type="week" v-model="week" />
 
         <br /><br />
+
         Format : HTML
-        <input type="radio" v-model="format" checked value="HTML" />
+        <input
+          type="radio"
+          v-model="format"
+          name="format"
+          checked
+          value="HTML"
+        />
 
         PDF
-        <input type="radio" v-model="format" value="PDF" />
+        <input type="radio" v-model="format" name="format" value="PDF" />
       </div>
+
       <br /><br />
       <div class="submit">
         <button type="submit">Submit</button>
@@ -20,23 +28,47 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       week: "",
       format: "",
+      jwtToken: "",
     };
   },
   methods: {
     getWeek: function(date) {
       return date.slice(date.indexOf("W") + 1, date.length);
     },
+    afficherPdf() {
+      if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
+      axios
+        .get("http://localhost:8081/monPdf", {
+          responseType: "blob",
+          headers: {
+            Authorization: this.jwtToken,
+          },
+        })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const objectUrl = window.URL.createObjectURL(blob);
+          window.open(objectUrl);
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     onSubmit() {
       const formData = {
         week: this.week,
         format: this.format,
       };
-      this.$router.push("consommations/" + this.getWeek(this.week));
+      this.format == "PDF"
+        ? this.afficherPdf()
+        : this.$router.push("consommations/" + this.getWeek(this.week));
       console.log(formData);
     },
   },

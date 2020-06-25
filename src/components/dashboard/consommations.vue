@@ -1,14 +1,13 @@
 <template>
   <div class="container">
     <table class="table table-stripped">
+      <strong>Numero de Semaine : {{ week }}</strong>
       <tr>
         <th>Programmeur</th>
-        <th>Numero de semaine</th>
         <th>Nombre de Tasses</th>
       </tr>
       <tr v-for="c in consommations" :key="c.consommationId">
         <td>{{ c.nomCompletProgrammeur }}</td>
-        <td>{{ c.numSemaine }}</td>
         <td>{{ c.nbTasses }}</td>
       </tr>
     </table>
@@ -22,6 +21,7 @@ export default {
     return {
       jwtToken: "",
       consommations: [],
+      week: this.$route.params.week,
     };
   },
   mounted() {

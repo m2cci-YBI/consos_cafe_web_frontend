@@ -8,6 +8,7 @@ import DashboardPage from "../components/dashboard/dashboard.vue";
 import ChoixAffichagePage from "../components/dashboard/choixAffichage.vue";
 import ConsommationsPage from "../components/dashboard/consommations.vue";
 
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -23,7 +24,8 @@ const routes = [
         path: "/consommations/:week",
         name: "consommations",
         component: ConsommationsPage,
-      },
+      }
+     
     ],
   },
 ];

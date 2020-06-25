@@ -52,4 +52,7 @@ Pour la resoudre il faut specifier dans le backend les domaines autorisées a re
 On a donc defini une classe de configuration dans la parti backend qui autorise cela, cette classe doit implementer WebMvcConfigurer
 et definir la methode addCorsMappings
 
-Si vous vous connectez a la parti backend depuis postman ou insomnia vous n'aurez pas ce probleme car la verification CORS est faite juste par les browsers,
+Si vous vous connectez a la parti backend depuis postman ou insomnia vous n'aurez pas ce probleme car la verification CORS est faite juste par les browsers
+
+PS: Cette solution fonctionnera tant que on a pas encore entamer la partie identification. Par la suite, quand on definira les filtres
+utilisés pour la creation du JWT , on devra resoudre l'erreur CORS au niveau des filtres.
