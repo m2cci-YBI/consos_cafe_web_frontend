@@ -42,18 +42,21 @@ export default {
       return date.slice(date.indexOf("W") + 1, date.length);
     },
     afficherPdf() {
+      console.log(this.getWeek(this.week));
       if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
       axios
-        .get("http://localhost:8081/monPdf", {
+        .get("http://localhost:8081/monPdf/" + this.getWeek(this.week), {
           responseType: "blob",
           headers: {
             Authorization: this.jwtToken,
+            Accept: "application/pdf",
           },
         })
         .then((response) => {
+          console.log(response);
           const blob = new Blob([response.data], { type: "application/pdf" });
-          const objectUrl = window.URL.createObjectURL(blob);
-          window.open(objectUrl);
+          const Url = window.URL.createObjectURL(blob);
+          window.open(Url);
         })
 
         .catch((error) => {
@@ -70,6 +73,7 @@ export default {
         ? this.afficherPdf()
         : this.$router.push("consommations/" + this.getWeek(this.week));
       console.log(formData);
+      console.log(this.getWeek(this.week));
     },
   },
 };
