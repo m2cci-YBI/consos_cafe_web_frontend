@@ -1,19 +1,28 @@
 <template>
-  <div id="signin">
-    <div class="signin-form">
-      <form @submit.prevent="onSubmit">
-        <div class="input">
-          <label for="username">Username</label>
-          <input type="username" id="username" v-model="username" />
-        </div>
-        <div class="input">
-          <label for="password">Password</label>
-          <input type="password" id="password" v-model="password" />
-        </div>
-        <div class="submit">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+  <div class="container">
+    <div
+      v-if="fauxId"
+      class="alert alert-danger"
+      style="margin-top: 10px ;text-align: center"
+    >
+      <strong>Username ou password erroné</strong>
+    </div>
+    <div id="signin">
+      <div class="signin-form">
+        <form @submit.prevent="onSubmit">
+          <div class="input">
+            <label for="username">Username</label>
+            <input type="username" id="username" v-model="username" />
+          </div>
+          <div class="input">
+            <label for="password">Password</label>
+            <input type="password" id="password" v-model="password" />
+          </div>
+          <div class="submit">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -23,9 +32,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      auth: 0, //variable du store
       username: "",
       password: "",
+      fauxId: false,
     };
   },
   methods: {
@@ -39,10 +48,12 @@ export default {
         .then((response) => {
           let jwtToken = response.headers.authorization;
           localStorage.setItem("jwtToken", jwtToken);
-          this.auth = 1;
+
+          this.$store.state.auth = true;
           this.$router.push("dashboard");
         })
         .catch((error) => {
+          this.fauxId = true;
           console.log(error);
         });
     },

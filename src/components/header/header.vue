@@ -5,13 +5,13 @@
     </div>
     <nav>
       <ul>
-        <li>
+        <li v-if="!this.$store.state.auth">
           <router-link to="/signin">Sign In</router-link>
         </li>
-        <li>
+        <li v-if="this.$store.state.auth">
           <router-link to="/dashboard">Dashboard</router-link>
         </li>
-        <li>
+        <li v-if="this.$store.state.auth">
           <button @click="logOut" class="logOut">LogOut</button>
         </li>
       </ul>
@@ -21,10 +21,21 @@
 
 <script>
 export default {
+  data() {
+    return {
+      auth: Boolean,
+    };
+  },
+  mounted() {
+    localStorage.getItem("jwtToken") == null
+      ? (this.$store.state.auth = false)
+      : (this.$store.state.auth = true);
+  },
   methods: {
     logOut() {
       localStorage.removeItem("jwtToken");
       this.$router.replace("/signin");
+      this.$store.state.auth = false;
     },
   },
 };
