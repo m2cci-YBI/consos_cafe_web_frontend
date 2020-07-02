@@ -7,7 +7,7 @@ import SigninPage from "../components/auth/signin.vue";
 import DashboardPage from "../components/dashboard/dashboard.vue";
 import ChoixAffichagePage from "../components/dashboard/choixAffichage.vue";
 import ConsommationsPage from "../components/dashboard/consommations.vue";
-
+import UpdatePage from "../components/dashboard/update.vue";
 
 Vue.use(VueRouter);
 
@@ -21,11 +21,15 @@ const routes = [
     children: [
       { path: "", component: ChoixAffichagePage },
       {
-        path: "/consommations/:week",
+        path: "consommations/:week",
         name: "consommations",
         component: ConsommationsPage,
-      }
-     
+      },
+      {
+        path: "updateConso",
+        name: "updateConso",
+        component: UpdatePage,
+      },
     ],
   },
 ];

@@ -1,14 +1,21 @@
 <template>
   <div class="container">
+    <a href="#" class="justify-content-end">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </a>
     <table class="table table-stripped">
       <strong>Numero de Semaine : {{ week }}</strong>
       <tr>
         <th>Programmeur</th>
-        <th>Nombre de Tasses</th>
+        <th>
+          Nombre de Tasses
+        </th>
       </tr>
       <tr v-for="c in consommations" :key="c.consommationId">
         <td>{{ c.nomCompletProgrammeur }}</td>
-        <td>{{ c.nbTasses }}</td>
+        <td>
+          {{ c.nbTasses }}
+        </td>
       </tr>
     </table>
   </div>
@@ -20,6 +27,7 @@ export default {
   data() {
     return {
       jwtToken: "",
+
       consommations: [],
       week: this.$route.params.week,
     };
@@ -37,8 +45,13 @@ export default {
       .catch((error) => {
         console.log("erreur", error);
         localStorage.removeItem("jwtToken");
-        this.$router.replace("/signin");
+        //this.$router.replace("/signin");
       });
+  },
+  method: {
+    update() {
+      this.$router.replace(`/dashboard/updateConso/`);
+    },
   },
 };
 </script>

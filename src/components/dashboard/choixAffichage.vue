@@ -71,7 +71,10 @@ export default {
       };
       this.format == "PDF"
         ? this.afficherPdf()
-        : this.$router.push("consommations/" + this.getWeek(this.week));
+        : this.$router.push({
+            name: "consommations",
+            params: { week: this.getWeek(this.week) },
+          });
       console.log(formData);
       console.log(this.getWeek(this.week));
     },
