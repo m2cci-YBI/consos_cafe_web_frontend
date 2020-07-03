@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import VueJwtDecode from 'vue-jwt-decode'
+
 import axios from "axios";
 export default {
   data() {
@@ -38,6 +40,27 @@ export default {
     };
   },
   methods: {
+    checkRoles(){
+      let roles=this.$store.state.roles
+      console.log( roles)
+      console.log("avant iteration")
+      for(let r of roles)
+      { console.log("debut iteration")
+        if (r.authority=="RESP") {
+          this.$store.state.isResp=true;
+          console.log("ici")
+          console.log(r.authority)
+
+          console.log(this.$store.state.isResp)
+          return
+
+        }
+        
+      }
+      this.$store.state.isResp=false;
+      
+
+    },
     onSubmit() {
       const formData = {
         username: this.username,
@@ -48,8 +71,14 @@ export default {
         .then((response) => {
           let jwtToken = response.headers.authorization;
           localStorage.setItem("jwtToken", jwtToken);
-
+          console.log(jwtToken);
+          let jwtTokenModified=jwtToken.slice(jwtToken.indexOf(" ")+1, jwtToken.length);
+          console.log(jwtTokenModified);
+          let decodedJwt=VueJwtDecode.decode(jwtTokenModified)
+          console.log(decodedJwt);
+          this.$store.state.roles=decodedJwt.authorities        
           this.$store.state.auth = true;
+          this.checkRoles();
           this.$router.push("dashboard");
         })
         .catch((error) => {

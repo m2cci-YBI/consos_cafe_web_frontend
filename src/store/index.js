@@ -6,6 +6,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     auth: Boolean,
+    consommation:{},
+    roles:[],
+    isResp:false
   },
   mutations: {},
   actions: {},

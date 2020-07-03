@@ -1,14 +1,14 @@
 # consos_cafe_web_frontend
 
-##Presentation:
+## Presentation:
 
 Ce Repertoire concerne le developpement de la partie front end de l'application WEB-CAFE en vueJS
 
 ### Setting pour realiser un projet VueJs:
 
--installer npm  
+ 
 -installer nodejs  
--installer vue CLI (Command Line Interface)
+-installer vue CLI 
 
 versions utilisées pour ce projet:
 
@@ -32,6 +32,10 @@ l'application de deploie sur localhost/8080
 on configure donc le backEnd sur localhost/8081
 Vous pourrez trouver le fichier jar de la partie backEnd dans le repertoire du projet backEnd , fichier target , et l'exuter depuis ligne de commande avec la commande:
 java -jar nomfichier.jar
+
+Erreur d'execution:
+
+Il se peut que vous ayez cette erreur lors de l'execution sur windows 10 " Error from chokidar (C:\): Error: EBUSY: resource busy or locked, lstat 'C:\swapfile.sys' "
 
 ### base de donnee
 

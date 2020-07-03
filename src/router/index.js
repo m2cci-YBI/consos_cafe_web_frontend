@@ -26,7 +26,7 @@ const routes = [
         component: ConsommationsPage,
       },
       {
-        path: "updateConso",
+        path: "updateConso/",
         name: "updateConso",
         component: UpdatePage,
       },

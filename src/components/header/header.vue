@@ -36,6 +36,8 @@ export default {
       localStorage.removeItem("jwtToken");
       this.$router.replace("/signin");
       this.$store.state.auth = false;
+      this.$store.state.roles=[];
+      this.$store.state.isResp=false;
     },
   },
 };

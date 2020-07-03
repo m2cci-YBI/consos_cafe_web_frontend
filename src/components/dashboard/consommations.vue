@@ -1,20 +1,32 @@
 <template>
   <div class="container">
-    <a href="#" class="justify-content-end">
-      <span class="glyphicon glyphicon-pencil"></span>
-    </a>
+    <h5 style="text-align: center">Numero de Semaine : {{ week }}</h5>
+    <br />
+    <span v-if="isResp" v-on:click="add(week)" class="float-right" style="cursor:pointer" >
+      <f-icon icon="plus" class="fa-lg" />
+    </span>
     <table class="table table-stripped">
-      <strong>Numero de Semaine : {{ week }}</strong>
       <tr>
         <th>Programmeur</th>
         <th>
           Nombre de Tasses
         </th>
       </tr>
-      <tr v-for="c in consommations" :key="c.consommationId">
+      <tr
+        
+        v-for="c in consommations"
+        :key="c.consommationId"
+      >
         <td>{{ c.nomCompletProgrammeur }}</td>
-        <td>
-          {{ c.nbTasses }}
+        <td >
+          <span> {{ c.nbTasses }}</span>
+          <div v-if="isResp"
+            v-on:click="transfer(c.consommationId)"
+            class="float-right"
+           style="cursor:pointer"
+          >
+            <f-icon icon="edit" class="fa-lg" />
+          </div>
         </td>
       </tr>
     </table>
@@ -27,12 +39,13 @@ export default {
   data() {
     return {
       jwtToken: "",
-
+       isResp:this.$store.state.isResp,
       consommations: [],
       week: this.$route.params.week,
     };
   },
   mounted() {
+    console.log("isResp :" +this.$store.state.isResp)
     if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
 
     axios
@@ -48,9 +61,16 @@ export default {
         //this.$router.replace("/signin");
       });
   },
-  method: {
-    update() {
-      this.$router.replace(`/dashboard/updateConso/`);
+  methods: {
+    
+    transfer: function(id) {
+      this.$store.state.consommation = this.consommations.filter(
+        (c) => c.consommationId == id
+      );
+      this.$router.replace("/dashboard/updateConso?mode=update");
+    },
+    add: function(week) {
+      this.$router.replace("/dashboard/updateConso?mode=ajout&week="+week);
     },
   },
 };
