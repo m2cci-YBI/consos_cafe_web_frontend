@@ -1,5 +1,12 @@
 <template>
   <div class="filter-Form">
+    <div
+      v-if="ressourceIndispo"
+      class="alert alert-danger"
+      style="margin-top: 10px ;text-align: center"
+    >
+      <strong>Cette Semaine ne contient aucune Consommation</strong>
+    </div>
     <form @submit.prevent="onSubmit">
       <div class="input">
         Week : <input id="numSemInput" type="week" v-model="week" />
@@ -32,6 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      ressourceIndispo:false,
       week: "",
       format: "",
       jwtToken: "",
@@ -42,6 +50,7 @@ export default {
       return date.slice(date.indexOf("W") + 1, date.length);
     },
     afficherPdf() {
+      this.ressourceIndispo=false;
       console.log(this.getWeek(this.week));
       if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
       axios
@@ -61,6 +70,7 @@ export default {
 
         .catch((error) => {
           console.log(error);
+          this.ressourceIndispo=true;
         });
     },
 
