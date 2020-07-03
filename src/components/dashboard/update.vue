@@ -4,11 +4,21 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="nom">Nom</label>
+           <div class="form-group">
+          <input v-if="modeUpdate"
+            type="text"
+            id="nom"
+            class="form-control"
+            v-model="formData.nomCompletProgrammeur"
+            readonly
+          />
+        </div>
           <select v-on:change="getProgrammeurId(formData.nomCompletProgrammeur)"
            
             class="form-control"
             id="nom"
             v-model="formData.nomCompletProgrammeur"
+            v-if="!modeUpdate"
             
           >
             <option v-for="p in programmeurs" :key="p.programmeurId" >
@@ -40,6 +50,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      modeUpdate:"",
       programmeurs: [],
       week: "",
       weekInitial: "",
@@ -54,19 +65,19 @@ export default {
     };
   },
   mounted() {
-    
+    this.modeUpdate=(this.$route.query.mode=="update")
     if (this.$route.query.mode == "update") {
       this.formData = this.$store.state.consommation[0];
       this.week = "2020-W" + this.formData.numSemaine;
       this.weekInitial = this.formData.numSemaine;
-     // document.getElementById("nom").setAttribute("readonly", "true");
+     
       
     } else {
       this.formData.consommationId = null;
       this.week = "2020-W" + this.$route.query.week;
       this.weekInitial = this.$route.query.week;
       this.formData.numSemaine=this.weekInitial
-      document.getElementById("week").setAttribute("readonly", "true");
+      
     }
     console.log(this.formData);
     if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
@@ -76,12 +87,20 @@ export default {
       })
       .then((response) => {
         this.programmeurs = response.data;
+        console.log(this.programmeurs)
+        console.log(this.weekInitial)
+        this.filterProgrammeurs(this.weekInitial)
+
+        console.log(this.programmeurs)
       })
       .catch((error) => {
         console.log("erreur", error);
       });
   },
   methods: {
+    filterProgrammeurs(week){
+    this.programmeurs=this.programmeurs.filter((p)=>p.consosCafe.filter(c => c.numSemaine==week).length==0 )
+    },
     getProgrammeurId(nomComplet){
       let nom=nomComplet.slice(0,nomComplet.indexOf(" "));
       console.log(nom);
