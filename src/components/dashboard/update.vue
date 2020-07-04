@@ -133,7 +133,7 @@ export default {
         )
         .then((response) => {
           console.log(response);
-          this.$router.replace("/dashboard/consommations/" + this.weekInitial);
+          this.$router.replace("/dashboard/consommations/" + this.weekInitial +"?isAjour=true");
         })
         .catch((error) => {
           console.log("erreur", error);
