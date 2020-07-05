@@ -69,24 +69,23 @@ export default {
         })
 
         .catch((error) => {
-          console.log(error);
+          if(error.response.status ==500)
           this.ressourceIndispo=true;
+          else if (error.response.status ==403)
+          this.$router.replace("/signin");
+          else
+          console.log(error)
         });
     },
 
     onSubmit() {
-      const formData = {
-        week: this.week,
-        format: this.format,
-      };
       this.format == "PDF"
         ? this.afficherPdf()
         : this.$router.push({
             name: "consommations",
             params: { week: this.getWeek(this.week) },
           });
-      console.log(formData);
-      console.log(this.getWeek(this.week));
+      
     },
   },
 };

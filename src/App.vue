@@ -16,8 +16,5 @@
 </script>
 
 <style>
-  body, html {
-    margin: 0;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
+  
 </style>

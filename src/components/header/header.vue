@@ -1,22 +1,42 @@
 <template>
-  <header id="header">
-    <div class="header">
-      <router-link to="/">APPLICATION WEB CAFE</router-link>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <div class="container-fluid">
+      <router-link to="/" class="navbar-brand"
+        >APPLICATION WEB CAFE</router-link
+      >
+      <div class="collapase navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <router-link
+              to="/signin"
+              class="nav-link"
+              v-if="!this.$store.state.auth"
+            >
+              <f-icon icon="sign-in-alt" class="fa-lg mr-2" />Login
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/dashboard"
+              class="nav-link"
+              v-if="this.$store.state.auth"
+            >
+              <f-icon icon="cog" class="fa-lg mr-2" />Dashboard
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/signin"
+              class="nav-link"
+              v-if="this.$store.state.auth"
+            >
+              <f-icon icon="sign-out-alt" class=" fa-lg mr-2" />Logout
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </div>
-    <nav>
-      <ul>
-        <li v-if="!this.$store.state.auth">
-          <router-link to="/signin">Sign In</router-link>
-        </li>
-        <li v-if="this.$store.state.auth">
-          <router-link to="/dashboard">Dashboard</router-link>
-        </li>
-        <li v-if="this.$store.state.auth">
-          <button @click="logOut" class="logOut">LogOut</button>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  </nav>
 </template>
 
 <script>
@@ -31,62 +51,9 @@ export default {
       ? (this.$store.state.auth = false)
       : (this.$store.state.auth = true);
   },
-  methods: {
-    logOut() {
-      localStorage.removeItem("jwtToken");
-      this.$router.replace("/signin");
-      this.$store.state.auth = false;
-      this.$store.state.roles=[];
-      this.$store.state.isResp=false;
-    },
-  },
+  methods: {},
 };
 </script>
 <style>
-#header {
-  height: 56px;
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #002fff;
-  padding: 0 20px;
-}
 
-.logOut {
-  background-color: transparent;
-  border: none;
-  font: inherit;
-  color: white;
-  cursor: pointer;
-}
-.header a {
-  text-decoration: none;
-  font-family: inherit;
-  color: white;
-}
-
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  flex-flow: row;
-  align-items: center;
-}
-
-li {
-  margin: 0 16px;
-}
-
-li a {
-  text-decoration: none;
-  color: white;
-}
-
-li a:hover,
-li a.router-link-active {
-  color: #fa923f;
-}
 </style>

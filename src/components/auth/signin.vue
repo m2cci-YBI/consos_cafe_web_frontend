@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <br>
+    
     <div
       v-if="fauxId"
       class="alert alert-danger"
@@ -7,24 +9,23 @@
     >
       <strong>Username ou password erroné</strong>
     </div>
-    <div id="signin">
-      <div class="signin-form">
-        <form @submit.prevent="onSubmit">
-          <div class="input">
-            <label for="username">Username</label>
-            <input type="username" id="username" v-model="username" />
-          </div>
-          <div class="input">
-            <label for="password">Password</label>
-            <input type="password" id="password" v-model="password" />
-          </div>
-          <div class="submit">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
+
+    <div class="col-md-4 offset-4">
+      <form @submit.prevent="onSubmit">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="username" id="username" class="form-control" v-model="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" v-model="password" />
+        </div>
+        <br />
+        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+      </form>
     </div>
   </div>
+ 
 </template>
 
 <script>
@@ -39,18 +40,27 @@ export default {
       fauxId: false,
     };
   },
+  mounted() {
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("vuex");
+    this.$store.commit('setConsommation',null);
+    this.$store.commit('setAuth', false);
+    this.$store.commit('setRoles', []);
+    this.$store.commit('setIsResp',false);
+    
+  },
   methods: {
     checkRoles() {
       let roles = this.$store.state.roles;
 
       for (let r of roles) {
         if (r.authority == "RESP") {
-          this.$store.state.isResp = true;
+          this.$store.commit('setIsResp',true);
 
           return;
         }
       }
-      this.$store.state.isResp = false;
+      this.$store.commit('setIsResp',false);
     },
     onSubmit() {
       const formData = {
@@ -70,11 +80,12 @@ export default {
           console.log(jwtTokenModified);
           let decodedJwt = VueJwtDecode.decode(jwtTokenModified);
           console.log(decodedJwt);
-          this.$store.state.roles = decodedJwt.authorities;
-          this.$store.state.auth = true;
+          this.$store.commit('setRoles', decodedJwt.authorities);
+          this.$store.commit('setAuth', true);
           this.checkRoles();
           this.$router.push("dashboard");
-        })
+          
+                  })
         .catch((error) => {
           this.fauxId = true;
           console.log(error);
@@ -84,59 +95,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.signin-form {
-  width: 400px;
-  margin: 30px auto;
-  border: 1px solid #eee;
-  padding: 20px;
-  box-shadow: 0 2px 3px #ccc;
-}
+<style >
 
-.input {
-  margin: 10px auto;
-}
-
-.input label {
-  display: block;
-  color: #4e4e4e;
-  margin-bottom: 6px;
-}
-
-.input input {
-  font: inherit;
-  width: 100%;
-  padding: 6px 12px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-}
-
-.input input:focus {
-  outline: none;
-  border: 1px solid #002fff;
-  background-color: #eee;
-}
-
-.submit button {
-  border: 1px solid #002fff;
-  color: #002fff;
-  padding: 10px 20px;
-  font: inherit;
-  cursor: pointer;
-}
-
-.submit button:hover,
-.submit button:active {
-  background-color: #002fff;
-  color: white;
-}
-
-.submit button[disabled],
-.submit button[disabled]:hover,
-.submit button[disabled]:active {
-  border: 1px solid #ccc;
-  background-color: transparent;
-  color: #ccc;
-  cursor: not-allowed;
-}
 </style>

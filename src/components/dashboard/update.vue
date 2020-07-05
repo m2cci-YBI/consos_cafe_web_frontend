@@ -4,24 +4,24 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="nom">Nom</label>
-           <div class="form-group">
-          <input v-if="modeUpdate"
-            type="text"
-            id="nom"
-            class="form-control"
-            v-model="formData.nomCompletProgrammeur"
-            readonly
-          />
-        </div>
-          <select v-on:change="getProgrammeurId(formData.nomCompletProgrammeur)"
-           
+          <div class="form-group">
+            <input
+              v-if="modeUpdate"
+              type="text"
+              id="nom"
+              class="form-control"
+              v-model="formData.nomCompletProgrammeur"
+              readonly
+            />
+          </div>
+          <select
+            v-on:change="getProgrammeurId(formData.nomCompletProgrammeur)"
             class="form-control"
             id="nom"
             v-model="formData.nomCompletProgrammeur"
             v-if="!modeUpdate"
-            
           >
-            <option v-for="p in programmeurs" :key="p.programmeurId" >
+            <option v-for="p in programmeurs" :key="p.programmeurId">
               {{ p.nom }} {{ p.prenom }}
             </option>
           </select>
@@ -41,7 +41,9 @@
         </div>
         <br />
         <button class="btn btn-primary btn-block" type="submit">Submit</button>
+        
       </form>
+      
     </div>
   </div>
 </template>
@@ -50,7 +52,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      modeUpdate:"",
+      modeUpdate: "",
       programmeurs: [],
       week: "",
       weekInitial: "",
@@ -65,19 +67,16 @@ export default {
     };
   },
   mounted() {
-    this.modeUpdate=(this.$route.query.mode=="update")
+    this.modeUpdate = this.$route.query.mode == "update";
     if (this.$route.query.mode == "update") {
       this.formData = this.$store.state.consommation[0];
       this.week = "2020-W" + this.formData.numSemaine;
       this.weekInitial = this.formData.numSemaine;
-     
-      
     } else {
       this.formData.consommationId = null;
       this.week = "2020-W" + this.$route.query.week;
       this.weekInitial = this.$route.query.week;
-      this.formData.numSemaine=this.weekInitial
-      
+      this.formData.numSemaine = this.weekInitial;
     }
     console.log(this.formData);
     if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
@@ -87,29 +86,31 @@ export default {
       })
       .then((response) => {
         this.programmeurs = response.data;
-        console.log(this.programmeurs)
-        console.log(this.weekInitial)
-        this.filterProgrammeurs(this.weekInitial)
+        console.log(this.programmeurs);
+        console.log(this.weekInitial);
+        this.filterProgrammeurs(this.weekInitial);
 
-        console.log(this.programmeurs)
+        console.log(this.programmeurs);
       })
       .catch((error) => {
         console.log("erreur", error);
       });
   },
   methods: {
-    filterProgrammeurs(week){
-    this.programmeurs=this.programmeurs.filter((p)=>p.consosCafe.filter(c => c.numSemaine==week).length==0 )
+    
+    
+    filterProgrammeurs(week) {
+      this.programmeurs = this.programmeurs.filter(
+        (p) => p.consosCafe.filter((c) => c.numSemaine == week).length == 0
+      );
     },
-    getProgrammeurId(nomComplet){
-      let nom=nomComplet.slice(0,nomComplet.indexOf(" "));
-      console.log(nom);
-      let id=this.programmeurs.filter((p)=>p.nom==nom)[0].programmeurId
-      console.log(id);
-      this.formData.programmeur_Id=id;
-      console.log(this.formData)
-    }
-    ,
+    getProgrammeurId(nomComplet) {
+      let nom = nomComplet.slice(0, nomComplet.indexOf(" "));
+
+      let id = this.programmeurs.filter((p) => p.nom == nom)[0].programmeurId;
+
+      this.formData.programmeur_Id = id;
+    },
     getWeek: function(date) {
       return date.slice(date.indexOf("W") + 1, date.length);
     },
@@ -133,10 +134,13 @@ export default {
         )
         .then((response) => {
           console.log(response);
-          this.$router.replace("/dashboard/consommations/" + this.weekInitial +"?isAjour=true");
+          this.$router.replace(
+            "/dashboard/consommations/" + this.weekInitial + "?isAjour=true"
+          );
         })
         .catch((error) => {
           console.log("erreur", error);
+          this.$router.replace("/signin");
         });
     },
   },
