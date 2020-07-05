@@ -45,7 +45,7 @@
             <f-icon icon="chart-area" class="fa-3x"></f-icon>
           </div>
           <br />
-          <router-link to="" class="btn btn-outline-light btn-sm"
+          <router-link to="/dashboard/affichageGraphique" class="btn btn-outline-light btn-sm"
             >Voir</router-link
           >
         </div>

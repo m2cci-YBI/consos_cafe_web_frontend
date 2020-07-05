@@ -1,36 +1,36 @@
 <template>
-  <div class="filter-Form">
-    <div
-      v-if="ressourceIndispo"
-      class="alert alert-danger"
-      style="margin-top: 10px ;text-align: center"
-    >
-      <strong>Cette Semaine ne contient aucune Consommation</strong>
+  <div class="container ">
+    <div class="col-md-6 offset-md-3">
+      <div
+        v-if="ressourceIndispo"
+        class="alert alert-danger"
+        style="margin-top: 10px ;text-align: center"
+      >
+        <strong>Cette Semaine ne contient aucune Consommation</strong>
+      </div>
+      <form @submit.prevent="onSubmit">
+        <div class="form-group">
+          <label for="week">Semaine</label>
+          <input id="week" class="form-control" type="week" v-model="week" />
+        </div>
+
+        <div class="form-group">
+          Format : HTML
+          <input
+            type="radio"
+            v-model="format"
+            name="format"
+            checked
+            value="HTML"
+          />
+
+          PDF
+          <input type="radio" v-model="format" name="format" value="PDF" />
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+      </form>
     </div>
-    <form @submit.prevent="onSubmit">
-      <div class="input">
-        Week : <input id="numSemInput" type="week" v-model="week" />
-
-        <br /><br />
-
-        Format : HTML
-        <input
-          type="radio"
-          v-model="format"
-          name="format"
-          checked
-          value="HTML"
-        />
-
-        PDF
-        <input type="radio" v-model="format" name="format" value="PDF" />
-      </div>
-
-      <br /><br />
-      <div class="submit">
-        <button type="submit">Submit</button>
-      </div>
-    </form>
   </div>
 </template>
 
@@ -39,7 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      ressourceIndispo:false,
+      ressourceIndispo: false,
       week: "",
       format: "",
       jwtToken: "",
@@ -50,7 +50,7 @@ export default {
       return date.slice(date.indexOf("W") + 1, date.length);
     },
     afficherPdf() {
-      this.ressourceIndispo=false;
+      this.ressourceIndispo = false;
       console.log(this.getWeek(this.week));
       if (this.jwtToken == "") this.jwtToken = localStorage.getItem("jwtToken");
       axios
@@ -69,12 +69,10 @@ export default {
         })
 
         .catch((error) => {
-          if(error.response.status ==500)
-          this.ressourceIndispo=true;
-          else if (error.response.status ==403)
-          this.$router.replace("/signin");
-          else
-          console.log(error)
+          if (error.response.status == 500) this.ressourceIndispo = true;
+          else if (error.response.status == 403)
+            this.$router.replace("/signin");
+          else console.log(error);
         });
     },
 
@@ -85,40 +83,9 @@ export default {
             name: "consommations",
             params: { week: this.getWeek(this.week) },
           });
-      
     },
   },
 };
 </script>
 
-<style>
-.filter-Form {
-  width: 400px;
-  margin: 30px auto;
-  border: 1px solid #eee;
-  padding: 20px;
-  box-shadow: 0 2px 3px #ccc;
-  color: #4e4e4e;
-}
-
-#numSemInput {
-  font-size: large;
-  color: #4e4e4e;
-  height: 30px;
-  font-style: inherit;
-}
-
-.submit button {
-  border: 1px solid #002fff;
-  color: #002fff;
-  padding: 10px 20px;
-  font: inherit;
-  cursor: pointer;
-}
-
-.submit button:hover,
-.submit button:active {
-  background-color: #002fff;
-  color: white;
-}
-</style>
+<style></style>

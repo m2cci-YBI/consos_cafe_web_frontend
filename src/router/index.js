@@ -9,6 +9,7 @@ import ChoixAffichagePage from "../components/dashboard/choixAffichage.vue";
 import ConsommationsPage from "../components/dashboard/consommations.vue";
 import UpdatePage from "../components/dashboard/update.vue";
 import ProgrammeursPage from "../components/dashboard/programmeurs.vue";
+import AffichageGraphiquePage from "../components/dashboard/affichageGraphique.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -19,7 +20,7 @@ const routes = [
     path: "/dashboard",
     component: DashboardPage,
     children: [
-      { path: "", name:"choixAffich",component: ChoixAffichagePage },
+      { path: "", name: "choixAffich", component: ChoixAffichagePage },
       {
         path: "consommations/:week",
         name: "consommations",
@@ -34,6 +35,11 @@ const routes = [
         path: "programmeurs",
         name: "mesProgrammeurs",
         component: ProgrammeursPage,
+      },
+      {
+        path: "affichageGraphique",
+        name: "graphe",
+        component: AffichageGraphiquePage,
       },
     ],
   },

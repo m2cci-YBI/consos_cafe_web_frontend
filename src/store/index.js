@@ -20,8 +20,8 @@ export default new Vuex.Store({
     setAuth(state,bool){
       state.auth=bool;
     },
-    setRoles(state,roles){
-      state.roles=roles;
+    setRoles(state,r){
+      state.roles=r;
     },
     setConsommation(state,c){
       state.consommation=c;
