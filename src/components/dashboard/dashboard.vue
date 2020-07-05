@@ -70,7 +70,7 @@ data(){
 },
 mounted(){
   this.isResp=this.$store.state.isResp
-  console.log(this.$store.state.isResp);
+  
 
 }
 }

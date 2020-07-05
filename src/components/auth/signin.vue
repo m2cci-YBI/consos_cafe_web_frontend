@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <br>
-    
+    <br />
+
     <div
       v-if="fauxId"
       class="alert alert-danger"
@@ -14,18 +14,27 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="username" id="username" class="form-control" v-model="username" />
+          <input
+            type="username"
+            id="username"
+            class="form-control"
+            v-model="username"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" class="form-control" v-model="password" />
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            v-model="password"
+          />
         </div>
         <br />
         <button class="btn btn-primary btn-block" type="submit">Submit</button>
       </form>
     </div>
   </div>
- 
 </template>
 
 <script>
@@ -43,11 +52,10 @@ export default {
   mounted() {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("vuex");
-    this.$store.commit('setConsommation',null);
-    this.$store.commit('setAuth', false);
-    this.$store.commit('setRoles', []);
-    this.$store.commit('setIsResp',false);
-    
+    this.$store.commit("setConsommation", null);
+    this.$store.commit("setAuth", false);
+    this.$store.commit("setRoles", []);
+    this.$store.commit("setIsResp", false);
   },
   methods: {
     checkRoles() {
@@ -55,12 +63,12 @@ export default {
 
       for (let r of roles) {
         if (r.authority == "RESP") {
-          this.$store.commit('setIsResp',true);
+          this.$store.commit("setIsResp", true);
 
           return;
         }
       }
-      this.$store.commit('setIsResp',false);
+      this.$store.commit("setIsResp", false);
     },
     onSubmit() {
       const formData = {
@@ -72,20 +80,28 @@ export default {
         .then((response) => {
           let jwtToken = response.headers.authorization;
           localStorage.setItem("jwtToken", jwtToken);
+          console.log("***etape1:recuperer le token du header***");
           console.log(jwtToken);
           let jwtTokenModified = jwtToken.slice(
             jwtToken.indexOf(" ") + 1,
             jwtToken.length
           );
+          console.log("***etape2:supprimer le prefix Bearer***");
           console.log(jwtTokenModified);
+          console.log("***etape3:decoder le token***");
           let decodedJwt = VueJwtDecode.decode(jwtTokenModified);
           console.log(decodedJwt);
-          this.$store.commit('setRoles', decodedJwt.authorities);
-          this.$store.commit('setAuth', true);
+          console.log("***etape4:recuperer les authorities***");
+
+          this.$store.commit("setRoles", decodedJwt.authorities);
+          console.log(this.$store.state.roles);
+
+          this.$store.commit("setAuth", true);
+          console.log("***etape5:mettre a jour le boolean isResp***");
           this.checkRoles();
+          console.log(this.$store.state.isResp);
           this.$router.push("dashboard");
-          
-                  })
+        })
         .catch((error) => {
           this.fauxId = true;
           console.log(error);
@@ -95,6 +111,4 @@ export default {
 };
 </script>
 
-<style >
-
-</style>
+<style></style>
