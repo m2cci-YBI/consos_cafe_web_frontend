@@ -16,7 +16,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: "Consommations Totales Des Progrmmeurs",
+            label: "Consommations Totales Des Programmeurs",
             data: [],
             backgroundColor: "gray",
           },

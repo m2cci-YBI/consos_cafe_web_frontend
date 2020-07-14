@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
           <label for="week">Semaine</label>
-          <input type="week" id="week" class="form-control" v-model="week" />
+          <input type="week" id="week" class="form-control" readonly v-model="week" />
         </div>
         <div class="form-group">
           <label for="nbrTasses">Nombre de Tasses</label>
@@ -37,6 +37,7 @@
             id="nbrTasses"
             class="form-control"
             v-model="formData.nbTasses"
+            
           />
         </div>
         <br />

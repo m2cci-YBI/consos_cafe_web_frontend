@@ -9,8 +9,8 @@
           <div
             class="float-right"
             v-on:click="deleteProg(p.programmeurId)"
-            style="cursor:pointer"
-            v-if="!p.roles.includes('RESP')"
+            style="cursor:pointer"    
+            v-bind:style= "[p.roles.includes('RESP') ? {'visibility': 'hidden'} : {'visibility': 'visible'}]"
           >
             <f-icon icon="trash" class="fa-lg "></f-icon>
           </div>
