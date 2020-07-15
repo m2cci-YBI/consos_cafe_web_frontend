@@ -62,9 +62,9 @@ Executer commande : run npm cache clean .
 
 
 
-### Depandence du pojet :
+### Dépendances du pojet :
 
-Les dependance ajouté au projet sont dans le fichier package:
+Les dependances ajoutées au projet sont dans le fichier package.json:
 
 Library d'icon fontawsome
 
