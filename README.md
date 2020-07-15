@@ -30,16 +30,7 @@ npm run serve
 
 l'application de deploie sur localhost/8080
 on configure donc le backEnd sur localhost/8081
-Vous pourrez trouver le fichier jar de la partie backEnd dans le repertoire du projet backEnd , fichier target , et l'exuter depuis ligne de commande avec la commande:
-java -jar nomfichier.jar
 
-Erreur d'execution:
-
-Il se peut que vous ayez cette erreur lors de l'execution sur windows 10 " Error from chokidar (C:\): Error: EBUSY: resource busy or locked, lstat 'C:\swapfile.sys' "
-
-### base de donnee
-
-Les donnees de la bd couvrent uniquement les semaines 25 , 26 , 27 .Pour faire un test , choisir parmi ces semaines.
 
 ### Erreurs D'executions
 
@@ -51,12 +42,66 @@ https://www.youtube.com/watch?v=UjozQOaGt1k
 
 Erreur qui a lieu quand on se connecte a une domaine depuis un origine different localhost:8080 qui demande des data à localhost:8081
 
-Pour la resoudre il faut specifier dans le backend les domaines autorisées a recevoir les data, autoriser les differents methodes get post put delete options , et autoriser les headers.
+Solution:
 
-On a donc defini une classe de configuration dans la parti backend qui autorise cela, cette classe doit implementer WebMvcConfigurer
-et definir la methode addCorsMappings
+Pour la resoudre il faut specifier dans le backend les domaines autorisées a recevoir les data, autoriser les differents methodes get post put delete options , et autoriser les headers,L'implementation de cela est dans le package com.example.demo.auth,class:CorsFilter.
 
 Si vous vous connectez a la parti backend depuis postman ou insomnia vous n'aurez pas ce probleme car la verification CORS est faite juste par les browsers
 
-PS: Cette solution fonctionnera tant que on a pas encore entamer la partie identification. Par la suite, quand on definira les filtres
-utilisés pour la creation du JWT , on devra resoudre l'erreur CORS au niveau des filtres.
+
+-Erreur d'execution
+
+Il se peut que vous ayez cette erreur lors de l'execution sur windows 10 " Error from chokidar (C:\): Error: EBUSY: resource busy or locked, lstat 'C:\swapfile.sys' "
+
+Solution :
+
+supprimer le fichier node_modules .
+Executer commande : npm install .
+Executer commande : run npm cache clean .
+
+
+
+
+### Depandence du pojet :
+
+Les dependance ajouté au projet sont dans le fichier package:
+
+Library d'icon fontawsome
+
+    ```
+    @fortawesome/fontawesome-svg-core": "^1.2.29
+    @fortawesome/free-solid-svg-icons": "^5.13.1
+    @fortawesome/vue-fontawesome": "^0.1.10
+    ```
+module de requettes asynchrones axios
+    ```
+    "axios": "^0.19.2"
+    ```
+Library html,css ,js boostrap
+    ```
+    "bootstrap": "^4.5.0"
+    "jquery": "^3.5.1"
+    "popper.js": "^1.16.1"
+    ```
+library pour le data visualisation
+
+    ```
+       "chart.js": "^2.9.3",
+    ```
+library de decodage du jwt token
+
+    ```
+    "vue-jwt-decode": "^0.1.0",
+    ```
+module de routage de vuejs
+    ```
+    "vue-router": "^3.2.0",
+    ```
+module du store de vuejs
+    ```
+    "vuex": "^3.4.0",
+    ```
+module de persistance store de vuejs(pour resoudre le probleme de perte des data du store lors du reload d'une page )
+    ```
+    "vuex-persistedstate": "^3.0.1"
+    ```
