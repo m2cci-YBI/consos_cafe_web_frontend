@@ -94,14 +94,17 @@ library de decodage du jwt token
     "vue-jwt-decode": "^0.1.0",
     ```
 module de routage de vuejs
+
     ```
     "vue-router": "^3.2.0",
     ```
 module du store de vuejs
+
     ```
     "vuex": "^3.4.0",
     ```
 module de persistance store de vuejs(pour resoudre le probleme de perte des data du store lors du reload d'une page )
+
     ```
     "vuex-persistedstate": "^3.0.1"
     ```
